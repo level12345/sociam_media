@@ -1,0 +1,5 @@
+node_modules
+.env
+images/*
+!images/.gitkeep
+Thumbs.db
