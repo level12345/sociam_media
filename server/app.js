@@ -10,9 +10,6 @@ const multer = require("multer");
 const feedRoutes = require("./routes/feed");
 const authRoutes = require("./routes/auth");
 
-// const MONGODB_URI =
-//   "mongodb+srv://brianA:REDACTED@cluster0.gpjw2ct.mongodb.net/meses123?retryWrites=true&w=majority&appName=Cluster0";
-
 const app = express();
 
 const fileStorage = multer.diskStorage({
