@@ -226,7 +226,7 @@ class Feed extends Component {
     this.setState({ postsLoading: true });
     const method = "DELETE";
 
-    const URL = `VITE_API_URL/feed/post/${postId}`;
+    const URL = `${import.meta.env.VITE_API_URL}/feed/post/${postId}`;
     fetch(URL, {
       method: method,
       headers: {
