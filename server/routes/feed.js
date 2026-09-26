@@ -6,6 +6,8 @@ const isAuth = require("../middleware/is-auth");
 
 const router = express.Router();
 
+const upload = require("../middleware/upload");
+
 // GET /feed/posts
 router.get("/posts", isAuth, feedController.getPosts);
 
@@ -13,12 +15,13 @@ router.get("/posts", isAuth, feedController.getPosts);
 router.post(
   "/post",
   isAuth,
+  upload,
   [
     body("title").trim().isLength({ min: 5 }),
     body("content").trim().isLength({ min: 5 }),
   ],
 
-  feedController.createPost
+  feedController.createPost,
 );
 
 router.get("/post/:postId", isAuth, feedController.singlePost);
@@ -31,7 +34,7 @@ router.put(
     body("content").trim().isLength({ min: 5 }),
   ],
 
-  feedController.updatePost
+  feedController.updatePost,
 );
 
 router.delete("/post/:postId", isAuth, feedController.deletePost);

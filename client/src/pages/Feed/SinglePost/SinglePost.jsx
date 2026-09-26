@@ -14,7 +14,7 @@ class SinglePost extends Component {
 
   componentDidMount() {
     const postId = this.props.match.params.postId;
-    const URL = `http://localhost:3001/feed/post/${postId}`;
+    const URL = `${import.meta.env.VITE_API_URL}/feed/post/${postId}`;
     console.log(`Hitting this route: ${URL}`);
 
     fetch(URL, {

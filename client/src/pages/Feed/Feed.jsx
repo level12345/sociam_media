@@ -23,7 +23,7 @@ class Feed extends Component {
   };
 
   componentDidMount() {
-    const URL = "http://localhost:3001/feed/status";
+    const URL = `${import.meta.env.VITE_API_URL}/feed/status`;
     fetch(URL, {
       headers: {
         Authorization: "Bearer " + this.props.token,
@@ -74,7 +74,7 @@ class Feed extends Component {
       page--;
       this.setState({ postPage: page });
     }
-    fetch(`http://localhost:3001/feed/posts?page=${page}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/feed/posts?page=${page}`, {
       headers: {
         Authorization: "Bearer " + this.props.token,
       },
@@ -105,7 +105,7 @@ class Feed extends Component {
   statusUpdateHandler = (event) => {
     event.preventDefault();
     const method = "PUT";
-    const URL = `http://localhost:3001/feed/status`;
+    const URL = `${import.meta.env.VITE_API_URL}/feed/status`;
 
     fetch(URL, {
       method: method,
@@ -154,12 +154,12 @@ class Feed extends Component {
     formData.append("title", postData.title);
     formData.append("content", postData.content);
     formData.append("image", postData.image);
-    let url = "http://localhost:3001/feed/post";
+    let url = `${import.meta.env.VITE_API_URL}/feed/post`;
     let method = "POST";
     if (this.state.editPost) {
       let postId = this.state.editPost._id;
       method = "PUT";
-      url = `http://localhost:3001/feed/post/${postId}`;
+      url = `${import.meta.env.VITE_API_URL}/feed/post/${postId}`;
     }
 
     fetch(url, {
@@ -192,7 +192,7 @@ class Feed extends Component {
           let updatedPosts = [...prevState.posts];
           if (prevState.editPost) {
             const postIndex = prevState.posts.findIndex(
-              (p) => p._id === prevState.editPost._id
+              (p) => p._id === prevState.editPost._id,
             );
             updatedPosts[postIndex] = post;
           }
@@ -226,7 +226,7 @@ class Feed extends Component {
     this.setState({ postsLoading: true });
     const method = "DELETE";
 
-    const URL = `http://localhost:3001/feed/post/${postId}`;
+    const URL = `VITE_API_URL/feed/post/${postId}`;
     fetch(URL, {
       method: method,
       headers: {

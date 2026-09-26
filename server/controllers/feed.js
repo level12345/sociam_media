@@ -102,7 +102,7 @@ exports.createPost = async (req, res, next) => {
 
   const title = req.body.title;
   const content = req.body.content;
-  const imageUrl = req.file.path;
+  const imageUrl = req.file.location;
   const userId = req.userId;
   // console.log(`Logging from createPosts: ${req.userId}`);
 

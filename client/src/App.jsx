@@ -60,7 +60,7 @@ class App extends Component {
     event.preventDefault();
     this.setState({ authLoading: true });
     const method = "POST";
-    const URL = "http://localhost:3001/auth/login";
+    const URL = `${import.meta.env.VITE_API_URL}/auth/login`;
 
     fetch(URL, {
       method: method,
@@ -97,7 +97,7 @@ class App extends Component {
         localStorage.setItem("userId", resData.userId);
         const remainingMilliseconds = 60 * 60 * 1000;
         const expiryDate = new Date(
-          new Date().getTime() + remainingMilliseconds
+          new Date().getTime() + remainingMilliseconds,
         );
         localStorage.setItem("expiryDate", expiryDate.toISOString());
         this.setAutoLogout(remainingMilliseconds);
@@ -117,7 +117,7 @@ class App extends Component {
     this.setState({ authLoading: true });
 
     const method = "PUT";
-    const URL = "http://localhost:3001/auth/signup";
+    const URL = `${import.meta.env.VITE_API_URL}/auth/signup`;
     fetch(URL, {
       method: method,
       headers: {
@@ -132,7 +132,7 @@ class App extends Component {
       .then((res) => {
         if (res.status === 422) {
           throw new Error(
-            "Validation failed. Make sure the email address isn't used yet!"
+            "Validation failed. Make sure the email address isn't used yet!",
           );
         }
         if (res.status !== 200 && res.status !== 201) {
