@@ -419,7 +419,7 @@ exports.getUpdate = async (req, res, next) => {
   const userId = req.userId;
 
   try {
-    let user = User.findById(userId);
+    let user = await User.findById(userId);
     res.status(200).json({
       message: "Status Retrieved Successfully",
       status: user.status,
