@@ -11,7 +11,7 @@ A full-stack social media feed with JWT authentication, image uploads, and a pag
 
 ## Tech Stack
 
-- **Frontend:** React, React Router, Vite
+- **Frontend:** React 19, React Router 7, Vite
 - **Backend:** Node.js, Express, MongoDB (Mongoose)
 - **Infrastructure:** Docker Compose, MongoDB Atlas, AWS (EC2, S3)
 
@@ -41,5 +41,10 @@ Runs privately on AWS EC2 with Docker Compose.
 
 ## Status
 
+- Frontend is being migrated from class components to function components with hooks. Done: `App`, `SinglePost`, `Login`. Remaining: `Signup`, `Feed`, `FeedEdit`
 - Post editing is temporarily disabled
 - Socket.io and automated tests not yet added
+
+## Documentation
+
+- [Frontend architecture](docs/frontend-architecture.md): component tree, route map, state diagrams, sequence diagrams, known issues

@@ -4,8 +4,8 @@
 |---|---|
 | **Scope** | React client (`client/`) and how it talks to the Express API (`server/`) |
 | **Stack** | React 19, React Router 7 (declarative mode), Vite 6 dev server, `fetch` for HTTP |
-| **Status** | Mid-migration from class components to hooks. Diagrams describe current runtime behavior; gaps are listed in [Known issues](#7-known-issues) |
-| **Last updated** | 2026-10-04 |
+| **Status** | Mid-migration from class components to hooks. Converted: `App`, `SinglePost`, `Login`. Remaining: `Signup`, `Feed`, `FeedEdit`. Gaps are listed in [Known issues](#7-known-issues) |
+| **Last updated** | 2026-10-05 |
 
 ## Contents
 
@@ -57,7 +57,7 @@ flowchart TD
     app --> backdrop["Backdrop<br/>(when showBackdrop)"]
     app --> err["ErrorHandler<br/>modal when error is set"]
     app --> layout["Layout"]
-    app --> routes["Routes<br/>table chosen by isAuth"]
+    layout --> routes["Routes (children, inside main)<br/>table chosen by isAuth"]
 
     layout --> toolbar["Toolbar"] --> mainnav["MainNavigation"]
     mainnav --> logo["NavLink to / (Logo)"]
@@ -306,13 +306,14 @@ Found while documenting. Ordered by impact.
 
 | # | Area | Issue | Effect |
 |---|---|---|---|
-| 1 | `SinglePost` | Reads `this.props.match.params` (React Router v4 API, removed) | Opening a post crashes. Fix by converting to `useParams` |
+| 1 | `SinglePost` | ~~Reads `this.props.match.params` (removed API)~~ | **Fixed 2026-10-05:** converted to a function component using `useParams` |
 | 2 | `Feed` create | `POST` success branch never inserts the new post (`addPost` is unused, socket emits are commented out server-side) | New post doesn't appear until reload or page change |
 | 3 | `Feed` edit | Edit button commented out in `Post`, `updatePost` is empty | Editing is unreachable |
-| 4 | `App` layout | Routes render as a sibling of `Layout`, not as its children | Page content sits outside `<main class="content">` |
+| 4 | `App` layout | ~~Routes render as a sibling of `Layout`~~ | **Fixed 2026-10-05:** routes passed as `Layout` children, render inside `<main>` |
 | 5 | Auth | Bad/expired token returns **500** from `is-auth` middleware instead of 401, and the client has no 401 handling | Server-side expiry shows a generic error instead of logging out |
 | 6 | Auth | Auto-logout `setTimeout` is never cleared | Stale timer can fire after a manual logout + new login |
 | 7 | Auth | `logoutHandler` doesn't reset `userId` | Stale `userId` in state after logout |
 | 8 | Auth | Session restore runs in an effect after first paint | Brief login-page flash on reload when logged in |
 | 9 | `Feed` | `socket.io-client` imported but unused | Dead import |
+| 11 | `GET /feed/status` | ~~`User.findById` not awaited, so `status` was missing from the response~~ | **Fixed 2026-10-05:** added `await` (caused the controlled-to-uncontrolled input warning) |
 | 10 | `NavigationItems` | `NavLink exact` prop (removed in v6+) | Console warning. Use `end` |
