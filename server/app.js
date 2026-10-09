@@ -1,8 +1,6 @@
 require("dotenv").config();
 
 const express = require("express");
-const bodyParser = require("body-parser");
-const { query, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 
 const feedRoutes = require("./routes/feed");
@@ -10,7 +8,7 @@ const authRoutes = require("./routes/auth");
 
 const app = express();
 
-app.use(bodyParser.json()); // application/json
+app.use(express.json());
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", process.env.FRONTEND_ORIGIN);
@@ -27,20 +25,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Test Code
-app.get("/hello", query("person").notEmpty(), (req, res) => {
-  const result = validationResult(req);
-  console.log(result);
-
-  const htmlContent = "<html><body><h1>Hello, World!</h1></body></html>";
-
-  if (result.isEmpty()) {
-    return res.send(`Hello, ${req.query.person}! , ${htmlContent}`);
-  }
-
-  res.send({ errors: result.array() });
-});
-/////
 app.use("/auth", authRoutes);
 app.use("/feed", feedRoutes);
 
@@ -54,26 +38,6 @@ app.use((error, req, res, next) => {
     data: data,
   });
 });
-
-// mongoose
-//   // .connect(MONGODB_URI)
-//   .connect(process.env.MONGODB_URI)
-//   .then((result) => {
-//     const server = app.listen(process.env.PORT);
-//     const io = require("./socket").init(server, {
-//       cors: {
-//         origin: "http://localhost:3000",
-//         methods: ["GET", "POST"],
-//         credentials: true,
-//       },
-//     });
-//     io.on("connection", (socket) => {
-//       console.log("Client Connected");
-//     });
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
 
 mongoose
   .connect(process.env.MONGODB_URI)

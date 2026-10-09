@@ -17,7 +17,6 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1136.0",
     "bcryptjs": "^3.0.2",
-    "body-parser": "^1.18.3",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
     "express-validator": "^7.2.1",
