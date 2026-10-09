@@ -117,7 +117,7 @@ export default function App() {
       });
   };
 
-  const signupHandler = (event, authData) => {
+  const signupHandler = (event, signupForm) => {
     event.preventDefault();
     setAuthLoading(true);
 
@@ -129,9 +129,9 @@ export default function App() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: authData.signupForm.email.value,
-        name: authData.signupForm.name.value,
-        password: authData.signupForm.password.value,
+        email: signupForm.email.value,
+        name: signupForm.name.value,
+        password: signupForm.password.value,
       }),
     })
       .then((res) => {
