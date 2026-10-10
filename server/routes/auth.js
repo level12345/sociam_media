@@ -23,7 +23,7 @@ router.put(
     body("name").trim().not().isEmpty(),
     body("password").trim().isLength({ min: 5 }),
   ],
-  authController.signup
+  authController.signup,
 );
 
 router.post("/login", authController.login);

@@ -4,8 +4,6 @@ const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
   const token = req.headers.authorization;
-  // console.log("Raw header:", req.headers.authorization);
-  // console.log("Type:", typeof req.headers.authorization);
 
   if (!token) {
     const error = new Error("No token passed within header");

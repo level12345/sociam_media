@@ -44,12 +44,3 @@ router.get("/status", isAuth, feedController.getUpdate);
 router.put("/status", isAuth, feedController.statusUpdate);
 
 module.exports = router;
-
-// const method = "PUT";
-// const URL = `http://localhost:3001/feed/posts/status`;
-
-// fetch(method, URL, {
-//   headers: {
-//     Authorization: "Bearer " + this.props.token,
-//   },
-// });
