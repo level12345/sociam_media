@@ -169,8 +169,6 @@ function Feed({ token }) {
       })
       .then((resData) => {
         console.log(resData);
-        // resData._id = new Date().toISOString();
-        // resData.post.creator = "BrianAAAAAA";
         console.log(resData.post);
 
         const post = {
@@ -223,12 +221,7 @@ function Feed({ token }) {
         return res.json();
       })
       .then((resData) => {
-        // console.log(resData);
         loadPosts();
-        // this.setState((prevState) => {
-        //   const updatedPosts = prevState.posts.filter((p) => p._id !== postId);
-        //   return { posts: updatedPosts, postsLoading: false };
-        // });
       })
       .catch((err) => {
         console.log(err);

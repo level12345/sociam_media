@@ -82,7 +82,6 @@ export default function App() {
       }),
     })
       .then((res) => {
-        // console.log(res);
         if (res.status === 422) {
           throw new Error("Validation failed.");
         }
@@ -93,9 +92,6 @@ export default function App() {
         return res.json();
       })
       .then((resData) => {
-        // console.log(`Response data: ${resData}`);
-        // console.log(`${resData}`);
-        // console.log(resData);
         setIsAuth(true);
         setToken(resData.token);
         setAuthLoading(false);
@@ -147,8 +143,6 @@ export default function App() {
         return res.json();
       })
       .then((resData) => {
-        // console.log(resData);
-
         setIsAuth(false);
         setAuthLoading(false);
         navigate("/", { replace: true });

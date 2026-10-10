@@ -1,13 +1,13 @@
-import React from 'react';
-import { NavLink } from 'react-router';
+import React from "react";
+import { NavLink } from "react-router";
 
-import MobileToggle from '../MobileToggle/MobileToggle';
-import Logo from '../../Logo/Logo';
-import NavigationItems from '../NavigationItems/NavigationItems';
+import MobileToggle from "../MobileToggle/MobileToggle";
+import Logo from "../../Logo/Logo";
+import NavigationItems from "../NavigationItems/NavigationItems";
 
-import './MainNavigation.css';
+import "./MainNavigation.css";
 
-const mainNavigation = props => (
+const mainNavigation = (props) => (
   <nav className="main-nav">
     <MobileToggle onOpen={props.onOpenMobileNav} />
     <div className="main-nav__logo">
