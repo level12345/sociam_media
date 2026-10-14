@@ -2,6 +2,24 @@
   box-sizing: border-box;
 }
 
+:root {
+  /* Dark mode palette */
+  --bg: #15121b;
+  --surface: #211c2a;
+  --surface-input: #2a2433;
+  --border: #4a3d5c;
+  --text: #e6e1ee;
+  --text-muted: #a59db3;
+  --primary: #b48ae0;
+  --primary-strong: #6a2fa0;
+  --primary-strong-hover: #7d3cb8;
+  --toolbar: #2a0a45;
+  --accent: #fab83f;
+  --danger-text: #ff6b6b;
+}
+
 body {
   font-family: sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }

@@ -2,14 +2,14 @@
   width: 90%;
   margin: auto;
   text-align: center;
-  color: #3b0062;
+  color: var(--primary);
 }
 
 .single-post h2 {
   font-size: 1rem;
-  color: #464646;
+  color: var(--text-muted);
   padding-bottom: 1rem;
-  border-bottom: 2px solid #464646;
+  border-bottom: 2px solid var(--border);
 }
 
 .single-post__image {

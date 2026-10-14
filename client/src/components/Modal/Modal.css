@@ -3,19 +3,19 @@
   width: 90%;
   left: 5%;
   top: 20vh;
-  background: white;
+  background: var(--surface);
   border-radius: 5px;
   z-index: 200;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 .modal__header {
-  border-bottom: 2px solid #3b0062;
+  border-bottom: 2px solid var(--primary);
 }
 
 .modal__header h1 {
   font-size: 1.5rem;
-  color: #3b0062;
+  color: var(--primary);
   margin: 1rem;
 }
 

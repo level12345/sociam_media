@@ -1,7 +1,7 @@
 .button {
   font: inherit;
-  border: 1px solid #3b0062;
-  color: #3b0062;
+  border: 1px solid var(--primary);
+  color: var(--primary);
   background: none;
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -14,23 +14,23 @@
 }
 
 .button:disabled {
-  background: #ccc;
-  color: #888888;
+  background: #3a3442;
+  color: #7a7286;
   cursor: not-allowed;
-  border: #ccc;
+  border: #3a3442;
   box-shadow: none;
 }
 
 .button:disabled:hover,
 .button:disabled:active {
-  background: #ccc;
-  color: #888888;
-  border: #ccc;
+  background: #3a3442;
+  color: #7a7286;
+  border: #3a3442;
 }
 
 .button:hover,
 .button:active {
-  background: #3b0062;
+  background: var(--primary-strong);
   color: white;
 }
 
@@ -40,19 +40,19 @@
 
 .button--flat:hover,
 .button--flat:active {
-  background: rgba(59, 0, 98, 0.3);
-  color: #3b0062;
+  background: rgba(180, 138, 224, 0.2);
+  color: var(--primary);
 }
 
 .button--raised {
-  background: #3b0062;
+  background: var(--primary-strong);
   color: white;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.26);
 }
 
 .button--raised:hover,
 .button--raised:active {
-  background: #520288;
+  background: var(--primary-strong-hover);
 }
 
 .button.button--accent {
@@ -83,8 +83,8 @@
 }
 
 .button.button--danger {
-  border-color: #a30000;
-  color: #a30000;
+  border-color: var(--danger-text);
+  color: var(--danger-text);
 }
 
 .button--danger:hover,
@@ -95,8 +95,8 @@
 
 .button--flat.button--danger:hover,
 .button--flat.button--danger:active {
-  background: rgba(163, 0, 0, 0.3);
-  color: #a30000;
+  background: rgba(255, 107, 107, 0.2);
+  color: var(--danger-text);
 }
 
 .button.button--danger.button--raised {
