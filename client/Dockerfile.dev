@@ -13,3 +13,4 @@ EXPOSE 4000
 
 # Run Vite dev server
 CMD ["npm", "run", "dev", "--", "--host", "--port", "4000"]
+
