@@ -211,10 +211,14 @@ exports.statusUpdate = async (req, res, next) => {
   const status = req.body.status;
 
   try {
-    let user = await User.findByIdAndUpdate(userId, { status: status });
+    let user = await User.findByIdAndUpdate(
+      userId,
+      { status: status },
+      { new: true },
+    );
     res.status(200).json({
       message: "Status updated Successfully",
-      status1: user.status,
+      status: user.status,
     });
   } catch (err) {
     if (!err.statusCode) {
