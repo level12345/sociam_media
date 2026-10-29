@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useState } from "react";
-import openSocket from "socket.io-client";
 
 import Post from "../../components/Feed/Post/Post";
 import Button from "../../components/Button/Button";

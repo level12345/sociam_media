@@ -60,6 +60,7 @@ export default function App() {
   const logoutHandler = () => {
     setIsAuth(false);
     setToken(null);
+    setUserId(null);
     localStorage.removeItem("token");
     localStorage.removeItem("expiryDate");
     localStorage.removeItem("userId");
