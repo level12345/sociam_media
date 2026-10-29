@@ -3,9 +3,9 @@
 | | |
 |---|---|
 | **Scope** | React client (`client/`) and how it talks to the Express API (`server/`) |
-| **Stack** | React 19, React Router 7 (declarative mode), Vite 6 dev server, `fetch` for HTTP |
-| **Status** | Mid-migration from class components to hooks. Converted: `App`, `SinglePost`, `Login`. Remaining: `Signup`, `Feed`, `FeedEdit`. Gaps are listed in [Known issues](#7-known-issues) |
-| **Last updated** | 2026-10-05 |
+| **Stack** | React 19, React Router 7 (declarative mode), Vite 6 (dev server in dev, `vite build` + Nginx in prod), `fetch` for HTTP |
+| **Status** | All components are function components with hooks (migration finished 2026-10-09). Gaps are listed in [Known issues](#7-known-issues) |
+| **Last updated** | 2026-10-28 |
 
 ## Contents
 
@@ -21,7 +21,7 @@
 
 ## 1. System context
 
-Where the client sits. Ports come from `docker-compose.yml`.
+Where the client sits. Ports come from the compose files. In dev (`docker-compose.dev.yml`) the Vite dev server serves the app on `:4000`; in prod (`docker-compose.yml`) Nginx serves the built `dist/` files on `:4000` (container port 80).
 
 ```mermaid
 flowchart LR
@@ -30,17 +30,18 @@ flowchart LR
         spa["React SPA<br/>(JS bundle)"]
         ls[("localStorage<br/>token, userId, expiryDate")]
     end
-    vite["Vite dev server<br/>:4000<br/>serves index.html + bundle"]
+    vite["Vite dev server (dev) / Nginx (prod)<br/>:4000<br/>serves index.html + bundle"]
     api["Express API<br/>:3001<br/>/auth, /feed"]
     db[("MongoDB")]
-    img[("server/images<br/>uploaded files")]
+    img[("AWS S3<br/>uploaded images")]
 
     user --> spa
     vite -- "HTML + JS (once, on load)" --> spa
     spa <--> ls
     spa -- "JSON over HTTP<br/>Authorization: Bearer JWT" --> api
     api --> db
-    api --> img
+    api -- "multer-s3 upload" --> img
+    spa -- "img URLs" --> img
 ```
 
 ---
@@ -144,7 +145,7 @@ sequenceDiagram
     autonumber
     actor U as User
     participant B as Browser
-    participant V as Vite server
+    participant V as Vite / Nginx
     participant RR as React Router
     participant A as App
     participant R as Routes
@@ -308,12 +309,14 @@ Found while documenting. Ordered by impact.
 |---|---|---|---|
 | 1 | `SinglePost` | ~~Reads `this.props.match.params` (removed API)~~ | **Fixed 2026-10-05:** converted to a function component using `useParams` |
 | 2 | `Feed` create | `POST` success branch never inserts the new post (`addPost` is unused, socket emits are commented out server-side) | New post doesn't appear until reload or page change |
-| 3 | `Feed` edit | Edit button commented out in `Post`, `updatePost` is empty | Editing is unreachable |
+| 3 | `Feed` edit | Edit button commented out in `Post`, `updatePost` is empty | **By design:** post editing is not a feature. FeedEdit is only the New Post modal |
 | 4 | `App` layout | ~~Routes render as a sibling of `Layout`~~ | **Fixed 2026-10-05:** routes passed as `Layout` children, render inside `<main>` |
 | 5 | Auth | Bad/expired token returns **500** from `is-auth` middleware instead of 401, and the client has no 401 handling | Server-side expiry shows a generic error instead of logging out |
 | 6 | Auth | Auto-logout `setTimeout` is never cleared | Stale timer can fire after a manual logout + new login |
-| 7 | Auth | `logoutHandler` doesn't reset `userId` | Stale `userId` in state after logout |
-| 8 | Auth | Session restore runs in an effect after first paint | Brief login-page flash on reload when logged in |
+| 7 | Auth | `logoutHandler` doesn't reset `userId` state (localStorage is cleared) | Stale `userId` in state after logout |
+| 8 | Auth | Session restore runs in an effect after first paint (`isAuth` starts `false`) | Brief login-page flash on reload when logged in; refreshing on `/:postId` matches `*` in the logged-out table and redirects to `/`, so you land on the feed instead of the post |
 | 9 | `Feed` | `socket.io-client` imported but unused | Dead import |
 | 11 | `GET /feed/status` | ~~`User.findById` not awaited, so `status` was missing from the response~~ | **Fixed 2026-10-05:** added `await` (caused the controlled-to-uncontrolled input warning) |
-| 10 | `NavigationItems` | `NavLink exact` prop (removed in v6+) | Console warning. Use `end` |
+| 10 | `NavigationItems` | ~~`NavLink exact` prop (removed in v6+)~~ | **Fixed:** uses `end` |
+| 12 | `FeedEdit` | ~~Cancel didn't reset `imagePreview`; FeedEdit stays mounted (returns `null` when closed), so the old preview showed on reopen~~ | **Fixed 2026-10-28:** `cancelPostChangeHandler` calls `setImagePreview(null)` |
+| 13 | `PUT /feed/status` | ~~`findByIdAndUpdate` returned the pre-update doc; response key was `status1`~~ | **Fixed 2026-10-27:** `{ new: true }`, key renamed to `status` (client only logs the response) |
