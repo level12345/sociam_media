@@ -95,6 +95,7 @@ function FeedEdit({
 
   const cancelPostChangeHandler = () => {
     setPostForm(POST_FORM);
+    setImagePreview(null);
     onCancelEdit();
   };
 
