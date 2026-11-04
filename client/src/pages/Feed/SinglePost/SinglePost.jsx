@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import Image from "../../../components/Image/Image";
 import "./SinglePost.css";
 
-function SinglePost({ token }) {
+function SinglePost({ token, onLogout }) {
   const [postData, setPostData] = useState({
     title: "",
     author: "",
@@ -24,6 +24,10 @@ function SinglePost({ token }) {
       },
     })
       .then((res) => {
+        if (res.status === 401) {
+          onLogout();
+          throw new Error("Session expired. Please log in again.");
+        }
         if (res.status !== 200) {
           throw new Error("Failed to fetch post");
         }

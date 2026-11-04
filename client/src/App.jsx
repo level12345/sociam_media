@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useRef } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router";
 import Layout from "./components/Layout/Layout";
 import Backdrop from "./components/Backdrop/Backdrop";
@@ -22,6 +22,7 @@ export default function App() {
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -61,6 +62,7 @@ export default function App() {
     setIsAuth(false);
     setToken(null);
     setUserId(null);
+    clearTimeout(timeoutRef.current);
     localStorage.removeItem("token");
     localStorage.removeItem("expiryDate");
     localStorage.removeItem("userId");
@@ -157,7 +159,7 @@ export default function App() {
   };
 
   const setAutoLogout = (milliseconds) => {
-    setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       logoutHandler();
     }, milliseconds);
   };
@@ -170,11 +172,11 @@ export default function App() {
     <Routes>
       <Route
         path="/"
-        element={<FeedPage userId={userId} token={token} />}
+        element={<FeedPage token={token} onLogout={logoutHandler} />}
       ></Route>
       <Route
         path="/:postId"
-        element={<SinglePostPage userId={userId} token={token} />}
+        element={<SinglePostPage token={token} onLogout={logoutHandler} />}
       ></Route>
       <Route path="*" element={<Navigate to="/" replace />}></Route>
     </Routes>

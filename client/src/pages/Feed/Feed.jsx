@@ -9,7 +9,7 @@ import Loader from "../../components/Loader/Loader";
 import ErrorHandler from "../../components/ErrorHandler/ErrorHandler";
 import "./Feed.css";
 
-function Feed({ token }) {
+function Feed({ token, onLogout }) {
   const [isEditing, setIsEditing] = useState(false);
   const [posts, setPosts] = useState([]);
   const [totalPosts, setTotalPosts] = useState(0);
@@ -28,6 +28,10 @@ function Feed({ token }) {
       },
     })
       .then((res) => {
+        if (res.status === 401) {
+          onLogout();
+          throw new Error("Session expired. Please log in again.");
+        }
         if (res.status !== 200) {
           throw new Error("Failed to fetch user status.");
         }
@@ -76,6 +80,10 @@ function Feed({ token }) {
       },
     })
       .then((res) => {
+        if (res.status === 401) {
+          onLogout();
+          throw new Error("Session expired. Please log in again.");
+        }
         if (res.status !== 200) {
           throw new Error("Failed to fetch posts.");
         }
@@ -113,6 +121,10 @@ function Feed({ token }) {
       body: JSON.stringify({ status: status }),
     })
       .then((res) => {
+        if (res.status === 401) {
+          onLogout();
+          throw new Error("Session expired. Please log in again.");
+        }
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("Can't update status!");
         }
@@ -161,6 +173,10 @@ function Feed({ token }) {
       body: formData,
     })
       .then((res) => {
+        if (res.status === 401) {
+          onLogout();
+          throw new Error("Session expired. Please log in again.");
+        }
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("Creating or editing a post failed!!!!");
         }
@@ -214,6 +230,10 @@ function Feed({ token }) {
       },
     })
       .then((res) => {
+        if (res.status === 401) {
+          onLogout();
+          throw new Error("Session expired. Please log in again.");
+        }
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("Deleting a post failed!");
         }
