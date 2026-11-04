@@ -74,6 +74,7 @@ Runs privately on AWS EC2 with the production compose file. Deploy: `git pull`, 
 - Client fully on function components + hooks
 - Post editing is not a feature (Edit button disabled)
 - Socket.io scaffolded but not wired in; no automated tests yet
+- Known issues (deferred): new posts don't appear until reload; refreshing on a single post redirects to the feed. See [Known issues](docs/frontend-architecture.md#7-known-issues)
 - Next: single-node k3s deployment
 
 ## Documentation
